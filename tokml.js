@@ -111,7 +111,7 @@ function excludeStyleProperties(property, key) {
 
 function rootProperties(_) {
     if(!_) return '';
-    return Object.entries(_).map(([key, value]) => tag(key, encode(value)))
+    return Object.entries(_).map(([key, value]) => tag(key, encode(value))).join('');
 }
 
 // ## Geometry Types
