@@ -54,7 +54,7 @@ function feature(options, styleHashesArray) {
         }
 
         return styleDefinition + tag('Placemark',
-            proccessRootProperties(_.rootProperties) +
+            rootProperties(_.rootProperties) +
             name(_.properties, options) +
             description(_.properties, options) +
             extendeddata(options.excludeStyleProperties ? pickBy(_.properties, excludeStyleProperties) : _.properties) +
@@ -108,8 +108,8 @@ function excludeStyleProperties(property, key) {
     return !styles.includes(key);
 }
 
-function proccessRootProperties(_) {
-    return Object.entries.map(([key, value]) => tag(key, encode(value)))
+function rootProperties(_) {
+    return Object.entries(_).map(([key, value]) => tag(key, encode(value)))
 }
 
 // ## Geometry Types
