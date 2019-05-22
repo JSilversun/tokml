@@ -4,27 +4,6 @@ var strxml = require('strxml'),
     encode = strxml.encode;
 const {pickBy} = require('lodash');
 
-module.exports = function tokml(geojson, options) {
-
-    options = options || {
-        documentName: undefined,
-        documentDescription: undefined,
-        name: 'name',
-        description: 'description',
-        simplestyle: false,
-        timestamp: 'timestamp',
-        excludeStyleProperties: false
-    };
-
-    return '<?xml version="1.0" encoding="UTF-8"?>' +
-        tag('kml',
-            tag('Document',
-                documentName(options) +
-                documentDescription(options) +
-                root(geojson, options)
-            ), [['xmlns', 'http://www.opengis.net/kml/2.2']]);
-};
-
 function feature(options, styleHashesArray) {
     return function (_) {
         if (!_.properties || !geometry.valid(_.geometry)) return '';
@@ -110,7 +89,7 @@ function excludeStyleProperties(property, key) {
 }
 
 function rootProperties(_) {
-    if(!_) return '';
+    if (!_) return '';
     return Object.entries(_).map(([key, value]) => tag(key, encode(value))).join('');
 }
 
@@ -308,6 +287,29 @@ function pairs(_) {
     for (var i in _) o.push([i, _[i]]);
     return o;
 }
+
+module.exports = {
+    tokml: function tokml(geojson, options) {
+
+        options = options || {
+            documentName: undefined,
+            documentDescription: undefined,
+            name: 'name',
+            description: 'description',
+            simplestyle: false,
+            timestamp: 'timestamp',
+            excludeStyleProperties: false
+        };
+
+        return '<?xml version="1.0" encoding="UTF-8"?>' +
+            tag('kml',
+                tag('Document',
+                    documentName(options) +
+                    documentDescription(options) +
+                    root(geojson, options)
+                ), [['xmlns', 'http://www.opengis.net/kml/2.2']]);
+    }, geometryParser: geometry
+};
 },{"lodash":2,"strxml":3}],2:[function(require,module,exports){
 (function (global){
 /**
